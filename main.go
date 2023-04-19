@@ -6,8 +6,8 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
+	"github/jhoncodeu/mailbox-masive-go/src/models"
 	"io"
-	"io/ioutil"
 	"mime/multipart"
 	"os"
 )
@@ -33,14 +33,14 @@ func main() {
 	//fmt.Println("response Status:", resp.Status)
 
 	// Ejecutar olímpicos de ejemplo
-	loadOlympicsData(url_base+"/_bulk", headers)
+	//loadOlympicsData(url_base+"/_bulk", headers)
 
-	body, err := ioutil.ReadAll(resp.Body)
+	// transformar un archivo de texto a json
+	jdjson, err := models.ConvertToJdjson()
 	if err != nil {
 		panic(err)
 	}
-
-	fmt.Println(string(body))
+	fmt.Println(jdjson)
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {
