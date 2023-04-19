@@ -14,7 +14,7 @@ import (
 
 func main() {
 	authUser := auth.Login("admin", "Complexpass#123")
-	url_base := "http://localhost:4080/api/user"
+	url_base := "http://localhost:4080/api"
 
 	jsonStr, err := json.Marshal(authUser)
 	if err != nil {
@@ -26,11 +26,18 @@ func main() {
 		"Authorization": "Basic " + base64.StdEncoding.EncodeToString([]byte(authUser.Username+":"+authUser.Password)),
 	}
 
-	// Hacer la solicitud a cualquier Endpoint
-	resp, err := auth.SendRequest(url_base, "GET", jsonStr, headers)
-
+	// Hacer la solicitud a cualquier Endpoin
+	resp, err := auth.SendRequest(url_base+"/user", "GET", jsonStr, headers)
+	if err != nil {
+		panic(err)
+	}
 	defer resp.Body.Close()
-	//fmt.Println("response Status:", resp.Status)
+
+	if resp != nil {
+		fmt.Println("response Status:", resp.Status)
+	} else {
+		fmt.Println("Response is nil!")
+	}
 
 	// Ejecutar olímpicos de ejemplo
 	//loadOlympicsData(url_base+"/_bulk", headers)
@@ -40,7 +47,13 @@ func main() {
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(jdjson)
+	resqBulk, err := auth.SendRequest(url_base+"/_bulk", "POST", []byte(jdjson), headers)
+	if err != nil {
+		panic(err)
+	}
+
+	defer resqBulk.Body.Close()
+	fmt.Println("response Status:", resqBulk.Status)
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {

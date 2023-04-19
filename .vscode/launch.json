@@ -10,6 +10,13 @@
       "request": "launch",
       "mode": "auto",
       "program": "${workspaceFolder}"
-    }
+    },
+    {
+      "name": "Debug one file",
+      "type": "go",
+      "request": "launch",
+      "mode": "auto",
+      "program": "${workspaceFolder}/src/core/mbox.go"
+    },
   ]
 }
