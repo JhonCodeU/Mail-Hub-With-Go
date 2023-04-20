@@ -57,7 +57,7 @@ func main() {
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {
-	file, err := os.Open("olympics.ndjson")
+	file, err := os.Open("example/olympics.ndjson")
 	if err != nil {
 		panic(err)
 	}
