@@ -15,7 +15,7 @@ func init() {
 	core.Exec()
 }
 
-func main() {
+func run() {
 	authUser := auth.Login("admin", "Complexpass#123")
 	url_base := "http://localhost:4080/api"
 
@@ -57,7 +57,8 @@ func main() {
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {
-	file, err := os.Open("example/olympics.ndjson")
+	fileJdjson := "example/olympics.ndjson"
+	file, err := os.Open(fileJdjson)
 	if err != nil {
 		panic(err)
 	}
@@ -66,7 +67,7 @@ func loadOlympicsData(url_base string, headers map[string]string) {
 	// Crear un formulario para enviar el archivo
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile("file", "olympics.ndjson")
+	part, err := writer.CreateFormFile("file", fileJdjson)
 	if err != nil {
 		panic(err)
 	}
