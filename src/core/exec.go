@@ -36,8 +36,9 @@ func Exec() {
 			return
 		} else {
 			// crear la carpeta enron.json si no existe
-			if _, err := os.Stat("src/data/output/enron.jdjson"); os.IsNotExist(err) {
-				os.Mkdir("src/data/output/enron.jdjson", 0777)
+			pathFolder := "src/data/output/enron.jdjson"
+			if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
+				os.Mkdir(pathFolder, 0777)
 			}
 			fmt.Println("Comvertiendo los archivos de correos electrónicos a formato jdjson...")
 			ConvertMboxToNdjson()
@@ -45,6 +46,9 @@ func Exec() {
 	case 3:
 		// enviar los correos a la api _bulk
 		fmt.Println("Enviando los correos a la api _bulk...")
+		base_url := "http://localhost:4080/api"
+		pathFolder := "src/data/output/enron.jdjson"
+		SendRequestToZincsearch(base_url, pathFolder)
 
 	default:
 		fmt.Println("Opción no válida.")

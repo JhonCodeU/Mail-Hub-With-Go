@@ -2,7 +2,6 @@ package main
 
 import (
 	"bytes"
-	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
@@ -25,10 +24,7 @@ func main() {
 		panic(err)
 	}
 
-	headers := map[string]string{
-		"Content-Type":  "application/json",
-		"Authorization": "Basic " + base64.StdEncoding.EncodeToString([]byte(authUser.Username+":"+authUser.Password)),
-	}
+	headers := auth.HeaderHttpBasicAuth(authUser.Username, authUser.Password)
 
 	// Hacer la solicitud a cualquier Endpoin
 	resp, err := auth.SendRequest(url_base+"/user", "GET", jsonStr, headers)

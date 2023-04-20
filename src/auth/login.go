@@ -2,6 +2,7 @@ package auth
 
 import (
 	"bytes"
+	"encoding/base64"
 	"net/http"
 )
 
@@ -15,6 +16,15 @@ func Login(Username string, Password string) Auth {
 		Username: Username,
 		Password: Password,
 	}
+}
+
+func HeaderHttpBasicAuth(Username string, Password string) map[string]string {
+	headers := map[string]string{
+		"Content-Type":  "application/json",
+		"Authorization": "Basic " + base64.StdEncoding.EncodeToString([]byte(Username+":"+Password)),
+	}
+
+	return headers
 }
 
 func SendRequest(url string, method string, body []byte, headers map[string]string) (*http.Response, error) {
