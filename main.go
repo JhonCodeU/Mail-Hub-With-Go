@@ -6,11 +6,15 @@ import (
 	"encoding/json"
 	"fmt"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
-	"github/jhoncodeu/mailbox-masive-go/src/models"
+	"github/jhoncodeu/mailbox-masive-go/src/core"
 	"io"
 	"mime/multipart"
 	"os"
 )
+
+func init() {
+	core.Exec()
+}
 
 func main() {
 	authUser := auth.Login("admin", "Complexpass#123")
@@ -43,17 +47,17 @@ func main() {
 	//loadOlympicsData(url_base+"/_bulk", headers)
 
 	// transformar un archivo de texto a json
-	jdjson, err := models.ConvertToJdjson()
-	if err != nil {
-		panic(err)
-	}
-	resqBulk, err := auth.SendRequest(url_base+"/_bulk", "POST", []byte(jdjson), headers)
-	if err != nil {
-		panic(err)
-	}
+	/* 	jdjson, err := models.ConvertToJdjson()
+	   	if err != nil {
+	   		panic(err)
+	   	}
+	   	resqBulk, err := auth.SendRequest(url_base+"/_bulk", "POST", []byte(jdjson), headers)
+	   	if err != nil {
+	   		panic(err)
+	   	}
 
-	defer resqBulk.Body.Close()
-	fmt.Println("response Status:", resqBulk.Status)
+	   	defer resqBulk.Body.Close()
+	   	fmt.Println("response Status:", resqBulk.Status) */
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {

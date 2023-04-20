@@ -32,9 +32,9 @@ type table struct {
 
 // leer y comvertir un archivo de texto a json
 
-func ConvertToJdjson() (string, error) {
+func ConvertToJdjson(path string) (string, error) {
 	// Abrir el archivo de texto
-	file, err := os.Open("mailbox.")
+	file, err := os.Open(path)
 	if err != nil {
 		return "", err
 	}
