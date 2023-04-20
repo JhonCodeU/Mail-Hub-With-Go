@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
+	"github/jhoncodeu/mailbox-masive-go/config"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
 	"github/jhoncodeu/mailbox-masive-go/src/core"
 	"io"
@@ -16,8 +17,7 @@ func init() {
 }
 
 func run() {
-	authUser := auth.Login("admin", "Complexpass#123")
-	url_base := "http://localhost:4080/api"
+	authUser := auth.Login(config.AuthUser, config.AuthPass)
 
 	jsonStr, err := json.Marshal(authUser)
 	if err != nil {
@@ -27,7 +27,7 @@ func run() {
 	headers := auth.HeaderHttpBasicAuth(authUser.Username, authUser.Password)
 
 	// Hacer la solicitud a cualquier Endpoin
-	resp, err := auth.SendRequest(url_base+"/user", "GET", jsonStr, headers)
+	resp, err := auth.SendRequest(config.UrlBase+"/user", "GET", jsonStr, headers)
 	if err != nil {
 		panic(err)
 	}

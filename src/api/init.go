@@ -13,6 +13,16 @@ func RunApi() {
 
 	// Rutas
 	router.Get("/", routes.HomeHandler)
+	// Rutas para los usuarios
+	router.Get("/users", routes.GetUsersHandler)
+	router.Post("/user", routes.CreateUserHandler)
+	router.Put("/user", routes.UpdateUserHandler)
+	router.Route("/user/{userID}", func(r chi.Router) {
+		r.Delete("/", routes.DeleteUserHandler)
+	})
+
+	// Rutas para los correos
+	router.Post("/emails/search", routes.EmailsHandlerSearch)
 
 	http.ListenAndServe(":8080", router)
 }

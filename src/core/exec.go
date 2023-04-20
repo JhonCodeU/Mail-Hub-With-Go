@@ -2,6 +2,7 @@ package core
 
 import (
 	"fmt"
+	"github/jhoncodeu/mailbox-masive-go/config"
 	"os"
 )
 
@@ -48,9 +49,8 @@ func Exec() {
 	case 3:
 		// enviar los correos a la api _bulk
 		fmt.Println("Enviando los correos a la api _bulk...")
-		base_url := "http://localhost:4080/api"
 		pathFolder := "src/data/output/enron.jdjson"
-		SendRequestToZincsearch(base_url, pathFolder)
+		SendRequestToZincsearch(config.UrlBase, pathFolder)
 
 	case 4:
 		// Correr la api con chi
