@@ -13,8 +13,7 @@ func Exec() {
 	fmt.Println("1 - TRANSFORMAR A MBOX")
 	fmt.Println("2 - TRANSFORMAR DE MBOX A JDJSON")
 	fmt.Println("3 - INDEXAR LOS CORREOS A ZINCSEARCH API")
-	fmt.Println("4 - CORRER API CON CHI")
-	fmt.Println("5 - SALIR")
+	fmt.Println("4 - SALIR")
 
 	var option int
 	fmt.Scanln(&option)
@@ -53,12 +52,8 @@ func Exec() {
 		SendRequestToZincsearch(config.UrlBase, pathFolder)
 
 	case 4:
-		// Correr la api con chi
-		//api.RunApi()
-
-	case 5:
 		fmt.Println("Saliendo...")
-		return
+		break
 
 	default:
 		fmt.Println("Opción no válida.")
