@@ -1,4 +1,4 @@
-root = "./src/api"
+root = "./api"
 testdata_dir = "testdata"
 tmp_dir = "tmp"
 

@@ -42,6 +42,11 @@ func Exec() {
 			if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
 				os.Mkdir(pathFolder, 0777)
 			}
+			// validar si hay archivos en la carpeta si hay eliminarlos
+			if _, err := os.Stat(pathFolder + "/enron.json"); !os.IsNotExist(err) {
+				os.Remove(pathFolder + "/enron.json")
+			}
+
 			fmt.Println("Comvertiendo los archivos de correos electrónicos a formato jdjson...")
 			ConvertMboxToNdjson()
 		}

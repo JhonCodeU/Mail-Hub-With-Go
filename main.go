@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"github/jhoncodeu/mailbox-masive-go/config"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
@@ -16,7 +17,16 @@ func init() {
 	core.Exec()
 }
 
-func run() {
+// implementar profiling
+var (
+	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to `file`")
+	memprofile = flag.String("memprofile", "", "write memory profile to `file`")
+)
+
+func main() {
+
+	// My code here after
+
 	authUser := auth.Login(config.AuthUser, config.AuthPass)
 
 	jsonStr, err := json.Marshal(authUser)
@@ -57,7 +67,7 @@ func run() {
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {
-	fileJdjson := "example/olympics.ndjson"
+	fileJdjson := "src/example/olympics.ndjson"
 	file, err := os.Open(fileJdjson)
 	if err != nil {
 		panic(err)
