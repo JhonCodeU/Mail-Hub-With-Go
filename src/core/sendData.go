@@ -9,7 +9,7 @@ import (
 	"sync"
 )
 
-func SendRequestToZincsearch(base_url string, pathFolder string) {
+func SendRequestToZincSearch(base_url string, pathFolder string) {
 	// Obtener lista de archivos en la carpeta
 	files, err := ioutil.ReadDir(pathFolder)
 	if err != nil {

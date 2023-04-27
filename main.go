@@ -16,7 +16,8 @@ func main() {
 	CpuProfile()
 
 	//code
-	core.ExecAll()
+	//core.ExecAll()
+	core.ConvertMboxToNdjson()
 
 	/* 	authUser := auth.Login(config.AuthUser, config.AuthPass)
 

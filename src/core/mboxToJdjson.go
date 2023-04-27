@@ -7,14 +7,21 @@ import (
 	"log"
 	"os"
 	"path/filepath"
-	"sync"
+	"strings"
 )
 
 func ConvertMboxToNdjson() error {
-	mboxFolder := "src/data/output/enron.mbox"   // Carpeta donde se encuentran los archivos mbox
-	jdJsonFile := "src/data/output/enron.ndjson" // Archivo ndjson de salida
-	var wg sync.WaitGroup
+	mboxFolder := "src/data/output/enron.mbox"     // Carpeta donde se encuentran los archivos mbox
+	ndjsonFolder := "src/data/output/enron-ndjson" // Carpeta donde se guardarán los archivos ndjson
 
+	// Crear la carpeta ndjson si no existe
+	if _, err := os.Stat(ndjsonFolder); os.IsNotExist(err) {
+		if err := os.Mkdir(ndjsonFolder, 0755); err != nil {
+			return fmt.Errorf("error creando la carpeta %s: %s", ndjsonFolder, err.Error())
+		}
+	}
+
+	fmt.Println("Iniciando transformación de archivos a ndjson...")
 	// Recorre todos los archivos mbox en la carpeta
 	err := filepath.WalkDir(mboxFolder, func(path string, d fs.DirEntry, err error) error {
 		if err != nil {
@@ -24,30 +31,29 @@ func ConvertMboxToNdjson() error {
 			return nil
 		}
 
-		wg.Add(1)
-		go func() {
-			defer wg.Done()
+		// Transforma el archivo mbox a ndjson
+		ndjson, err := models.ConvertToJdjson(path)
+		if err != nil {
+			log.Printf("Error convirtiendo %s a ndjson: %s", path, err.Error())
+			return nil
+		}
 
-			// Transforma el archivo mbox a ndjson
-			ndjson, err := models.ConvertToJdjson(path)
-			if err != nil {
-				log.Printf("Error convirtiendo %s a ndjson: %s", path, err.Error())
-				return
-			}
+		// Obtener el nombre del archivo sin la extensión
+		fileName := strings.TrimSuffix(d.Name(), filepath.Ext(d.Name()))
 
-			// Escribe el registro ndjson en el archivo de salida
-			f, err := os.OpenFile(jdJsonFile, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-			if err != nil {
-				log.Printf("Error abriendo el archivo %s: %s", jdJsonFile, err.Error())
-				return
-			}
-			defer f.Close()
+		// Crear el archivo ndjson
+		f, err := os.OpenFile(ndjsonFolder+"/"+fileName+".ndjson", os.O_CREATE|os.O_WRONLY, 0644)
+		if err != nil {
+			log.Printf("Error creando el archivo %s: %s", fileName+".ndjson", err.Error())
+			return nil
+		}
+		defer f.Close()
 
-			if _, err := f.WriteString(ndjson); err != nil {
-				log.Printf("Error escribiendo registro ndjson en el archivo %s: %s", jdJsonFile, err.Error())
-				return
-			}
-		}()
+		// Escribir el registro ndjson en el archivo
+		if _, err := f.WriteString(ndjson); err != nil {
+			log.Printf("Error escribiendo registro ndjson en el archivo %s: %s", fileName+".ndjson", err.Error())
+			return nil
+		}
 
 		return nil
 	})
@@ -56,8 +62,7 @@ func ConvertMboxToNdjson() error {
 		return err
 	}
 
-	wg.Wait()
-	fmt.Printf("Transformación completada con éxito. El resultado se ha almacenado en el archivo %s\n", jdJsonFile)
+	fmt.Printf("Transformación completada con éxito. Los archivos ndjson se han almacenado en la carpeta %s\n", ndjsonFolder)
 
 	return nil
 }

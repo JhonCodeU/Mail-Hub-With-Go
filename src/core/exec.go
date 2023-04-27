@@ -2,7 +2,6 @@ package core
 
 import (
 	"fmt"
-	"github/jhoncodeu/mailbox-masive-go/config"
 	"os"
 )
 
@@ -57,7 +56,6 @@ func Exec() {
 		}
 
 		fmt.Println("Enviando los correos a la api _bulk...")
-		SendRequestToZincsearch(config.UrlBase, pathFolder)
 	case 4:
 		fmt.Println("Saliendo...")
 		break
@@ -101,14 +99,4 @@ func ExecAll() {
 		}
 	}
 
-	// enviar los correos a la api _bulk
-	pathFolder = "src/data/output/enron.jdjson"
-
-	if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
-		fmt.Println("Tienes que convertir los archivos de correos electrónicos a formato jdjson")
-		return
-	}
-
-	fmt.Println("Enviando los correos a la api _bulk...")
-	SendRequestToZincsearch(config.UrlBase, pathFolder)
 }
