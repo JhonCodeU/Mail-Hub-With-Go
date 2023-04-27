@@ -6,16 +6,14 @@ import (
 	"testing"
 )
 
-var pathFile = "src/data/output/enron.ndjson"
-
-var pathFolder = "src/data/output/enron.jdjson"
+var pathFolder = "src/data/output/enron-ndjson"
 
 func TestSendRequestToZincsearch(t *testing.T) {
-	core.SendRequestToZincSearch(config.UrlBase, pathFile)
+	core.SendRequestToZincSearch(config.UrlBase, pathFolder)
 }
 
 func BenchmarkSendRequestToZincsearch(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		core.SendRequestToZincSearch(config.UrlBase, pathFile)
+		core.SendRequestToZincSearch(config.UrlBase, pathFolder)
 	}
 }
