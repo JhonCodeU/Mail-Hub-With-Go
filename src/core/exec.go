@@ -91,14 +91,11 @@ func ExecAll() {
 		os.Mkdir(pathFolder, 0777)
 	}
 	// validar si hay archivos en la carpeta si mostrar mjs
-	if _, err := os.Stat(pathFolder); !os.IsNotExist(err) {
-		fmt.Println("Ya los correos estan en formato jdjson")
-	} else {
-		fmt.Println("Comvertiendo los archivos de correos electrónicos a formato jdjson...")
-		error := ConvertMboxToNdjson()
-		if error != nil {
-			fmt.Println(error)
-		}
+
+	fmt.Println("Comvertiendo los archivos de correos electrónicos a formato jdjson...")
+	error := ConvertMboxToNdjson()
+	if error != nil {
+		fmt.Println(error)
 	}
 
 	// enviar los correos a la api _bulk
