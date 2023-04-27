@@ -90,3 +90,7 @@ func printResult(result map[string]int) {
 		fmt.Printf("%-10v%s\n", c, w)
 	}
 }
+
+func Suma(a, b int) int {
+	return a + b
+}

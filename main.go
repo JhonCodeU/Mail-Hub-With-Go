@@ -2,9 +2,7 @@ package main
 
 import (
 	"bytes"
-	"encoding/json"
 	"fmt"
-	"github/jhoncodeu/mailbox-masive-go/config"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
 	"github/jhoncodeu/mailbox-masive-go/src/core"
 	"io"
@@ -16,29 +14,31 @@ func main() {
 
 	// CpuProfiler
 	CpuProfile()
+
+	//code
 	core.ExecAll()
 
-	authUser := auth.Login(config.AuthUser, config.AuthPass)
+	/* 	authUser := auth.Login(config.AuthUser, config.AuthPass)
 
-	jsonStr, err := json.Marshal(authUser)
-	if err != nil {
-		panic(err)
-	}
+	   	jsonStr, err := json.Marshal(authUser)
+	   	if err != nil {
+	   		panic(err)
+	   	}
 
-	headers := auth.HeaderHttpBasicAuth(authUser.Username, authUser.Password)
+	   	headers := auth.HeaderHttpBasicAuth(authUser.Username, authUser.Password)
 
-	// Hacer la solicitud a cualquier Endpoin
-	resp, err := auth.SendRequest(config.UrlBase+"/user", "GET", jsonStr, headers)
-	if err != nil {
-		panic(err)
-	}
-	defer resp.Body.Close()
+	   	// Hacer la solicitud a cualquier Endpoin
+	   	resp, err := auth.SendRequest(config.UrlBase+"/user", "GET", jsonStr, headers)
+	   	if err != nil {
+	   		panic(err)
+	   	}
+	   	defer resp.Body.Close()
 
-	if resp != nil {
-		fmt.Println("Conexion a DB:", resp.Status)
-	} else {
-		fmt.Println("No Conexion a DB!")
-	}
+	   	if resp != nil {
+	   		fmt.Println("Conexion a DB:", resp.Status)
+	   	} else {
+	   		fmt.Println("No Conexion a DB!")
+	   	} */
 
 	// MemProfiler
 	MemProfile()
