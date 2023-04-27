@@ -35,3 +35,19 @@ logs
 temp
 *.tmp
 tmp
+
+#build
+mailbox-massive-go
+testdata
+
+# .Prof
+*.prof
+# Images
+Images
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.ico
+*.webp

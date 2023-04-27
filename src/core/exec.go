@@ -37,11 +37,8 @@ func Exec() {
 			fmt.Println("Tienes que convertir los archivos de correos electrónicos a formato mbox")
 			return
 		} else {
-			// crear la carpeta enron.json si no existe
 			pathFolder := "src/data/output/enron.jdjson"
-			if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
-				os.Mkdir(pathFolder, 0777)
-			}
+
 			// validar si hay archivos en la carpeta si hay eliminarlos
 			if _, err := os.Stat(pathFolder + "/enron.json"); !os.IsNotExist(err) {
 				os.Remove(pathFolder + "/enron.json")
@@ -52,10 +49,15 @@ func Exec() {
 		}
 	case 3:
 		// enviar los correos a la api _bulk
-		fmt.Println("Enviando los correos a la api _bulk...")
 		pathFolder := "src/data/output/enron.jdjson"
-		SendRequestToZincsearch(config.UrlBase, pathFolder)
 
+		if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
+			fmt.Println("Tienes que convertir los archivos de correos electrónicos a formato jdjson")
+			return
+		}
+
+		fmt.Println("Enviando los correos a la api _bulk...")
+		SendRequestToZincsearch(config.UrlBase, pathFolder)
 	case 4:
 		fmt.Println("Saliendo...")
 		break
@@ -64,4 +66,49 @@ func Exec() {
 		fmt.Println("Opción no válida.")
 		return
 	}
+}
+
+// Sin switch
+func ExecAll() {
+	// Comprobar si existe la carpeta enron.mbox
+	if _, err := os.Stat("src/data/output/enron.mbox"); os.IsNotExist(err) {
+		fmt.Println("Convertiendo los archivos de correos electrónicos a formato mbox...")
+		Mbox()
+	} else {
+		fmt.Println("Ya los correos estan en formato mbox")
+	}
+
+	// comprobar si existe la carpeta enron.mbox
+	if _, err := os.Stat("src/data/output/enron.mbox"); os.IsNotExist(err) {
+		fmt.Println("No existe la carpeta enron.mbox")
+		fmt.Println("Tienes que convertir los archivos de correos electrónicos a formato mbox")
+		return
+	}
+
+	// crear la carpeta enron.json si no existe
+	pathFolder := "src/data/output/enron.jdjson"
+	if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
+		os.Mkdir(pathFolder, 0777)
+	}
+	// validar si hay archivos en la carpeta si mostrar mjs
+	if _, err := os.Stat(pathFolder); !os.IsNotExist(err) {
+		fmt.Println("Ya los correos estan en formato jdjson")
+	} else {
+		fmt.Println("Comvertiendo los archivos de correos electrónicos a formato jdjson...")
+		error := ConvertMboxToNdjson()
+		if error != nil {
+			fmt.Println(error)
+		}
+	}
+
+	// enviar los correos a la api _bulk
+	pathFolder = "src/data/output/enron.jdjson"
+
+	if _, err := os.Stat(pathFolder); os.IsNotExist(err) {
+		fmt.Println("Tienes que convertir los archivos de correos electrónicos a formato jdjson")
+		return
+	}
+
+	fmt.Println("Enviando los correos a la api _bulk...")
+	SendRequestToZincsearch(config.UrlBase, pathFolder)
 }

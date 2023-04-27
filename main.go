@@ -3,7 +3,6 @@ package main
 import (
 	"bytes"
 	"encoding/json"
-	"flag"
 	"fmt"
 	"github/jhoncodeu/mailbox-masive-go/config"
 	"github/jhoncodeu/mailbox-masive-go/src/auth"
@@ -13,19 +12,11 @@ import (
 	"os"
 )
 
-func init() {
-	core.Exec()
-}
-
-// implementar profiling
-var (
-	cpuprofile = flag.String("cpuprofile", "", "write cpu profile to `file`")
-	memprofile = flag.String("memprofile", "", "write memory profile to `file`")
-)
-
 func main() {
 
-	// My code here after
+	// CpuProfiler
+	CpuProfile()
+	core.ExecAll()
 
 	authUser := auth.Login(config.AuthUser, config.AuthPass)
 
@@ -44,26 +35,16 @@ func main() {
 	defer resp.Body.Close()
 
 	if resp != nil {
-		fmt.Println("response Status:", resp.Status)
+		fmt.Println("Conexion a DB:", resp.Status)
 	} else {
-		fmt.Println("Response is nil!")
+		fmt.Println("No Conexion a DB!")
 	}
 
+	// MemProfiler
+	MemProfile()
+
 	// Ejecutar olímpicos de ejemplo
-	//loadOlympicsData(url_base+"/_bulk", headers)
-
-	// transformar un archivo de texto a json
-	/* 	jdjson, err := models.ConvertToJdjson()
-	   	if err != nil {
-	   		panic(err)
-	   	}
-	   	resqBulk, err := auth.SendRequest(url_base+"/_bulk", "POST", []byte(jdjson), headers)
-	   	if err != nil {
-	   		panic(err)
-	   	}
-
-	   	defer resqBulk.Body.Close()
-	   	fmt.Println("response Status:", resqBulk.Status) */
+	//loadOlympicsData(config.UrlBase+"/_bulk", headers)
 }
 
 func loadOlympicsData(url_base string, headers map[string]string) {

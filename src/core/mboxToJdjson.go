@@ -12,6 +12,15 @@ func ConvertMboxToNdjson() error {
 	mboxFolder := "src/data/output/enron.mbox"     // Carpeta donde se encuentran los archivos mbox
 	jdJsonFolder := "src/data/output/enron.jdjson" // Carpeta donde se almacenarán los archivos ndjson
 
+	// Comprobar si existe la carpeta enron.json
+	if _, err := os.Stat(jdJsonFolder); os.IsNotExist(err) {
+		// Crear la carpeta enron.json si no existe
+		err := os.Mkdir(jdJsonFolder, 0777)
+		if err != nil {
+			return err
+		}
+	}
+
 	// Recorre todos los archivos mbox en la carpeta
 	err := filepath.Walk(mboxFolder, func(path string, info os.FileInfo, err error) error {
 		if err != nil {
