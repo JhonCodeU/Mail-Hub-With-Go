@@ -37,6 +37,7 @@ temp
 tmp
 
 #build
+mailbox-masive-go
 mailbox-massive-go
 testdata
 
