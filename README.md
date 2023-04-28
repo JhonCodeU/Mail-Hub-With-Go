@@ -1,5 +1,5 @@
 # Mail-Hub-With-Go
-This project is based on Chapter 6 of the book "Mining the Social Web, 2nd Edition" by Matthew A. Russell. The objective is to create an interface to search for information in email databases. The project has several parts, including indexing the email database, profiling the indexer, creating a visualizer, and optional optimization and deployment.
+This project is based on Chapter 6 of the book "Mining the Social Web, 2nd Edition" by Matthew A. Russell. The objective is to create an interface to search for information in email databases. The project has several parts, including indexing the email database, profiling the indexer, creating a visualizer, and optional optimization.
 
 ### Technologies used:
 * Go programming language
